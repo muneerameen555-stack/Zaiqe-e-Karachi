@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zaiqa-e-Karachi | Modern Pakistani Fine Dining &amp; Grill</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Playfair Display (Editorial Serif) & Plus Jakarta Sans (Clean Modern Sans) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        obsidian: '#0B0B0D',
+                        charcoal: '#141418',
+                        cardbg: '#1A1A20',
+                        gold: {
+                            400: '#E6C27A',
+                            500: '#D4AF37',
+                            600: '#B59226',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0B0D;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2C2C35;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D4AF37;
+        }
+
+        /* Subtle glassmorphism */
+        .glass-nav {
+            background: rgba(11, 11, 13, 0.88);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        /* Hero Parallax Overlay */
+        .hero-gradient {
+            background: linear-gradient(to right, rgba(11, 11, 13, 0.92) 0%, rgba(11, 11, 13, 0.72) 55%, rgba(11, 11, 13, 0.45) 100%);
+        }
+
+        /* Custom Date/Time Input Icon Color Fix for Dark Mode */
+        input[type="date"]::-webkit-calendar-picker-indicator,
+        input[type="time"]::-webkit-calendar-picker-indicator {
+            filter: invert(0.8) sepia(1) saturate(3) hue-rotate(10deg);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-obsidian text-stone-200 font-sans antialiased selection:bg-gold-500 selection:text-obsidian overflow-x-hidden">
+
+    <!-- ==================== 1. STICKY RESPONSIVE NAVBAR ==================== -->
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-40 glass-nav border-b border-white/10 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Brand Logo -->
+                <a href="#home" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center text-obsidian shadow-lg shadow-gold-500/20 group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-fire-flame-curved text-lg"></i>
+                    </div>
+                    <div>
+                        <span class="font-serif text-xl sm:text-2xl font-bold tracking-wide text-white block leading-none">
+                            Zaiqa<span class="text-gold-500">-e-</span>Karachi
+                        </span>
+                        <span class="text-[10px] uppercase tracking-[0.25em] text-stone-400 block mt-1">Royal Culinary House</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
+                    <a href="#home" class="text-stone-300 hover:text-gold-400 transition-colors">Home</a>
+                    <a href="#menu" class="text-stone-300 hover:text-gold-400 transition-colors">Our Menu</a>
+                    <a href="#about" class="text-stone-300 hover:text-gold-400 transition-colors">Heritage &amp; Chef</a>
+                    <a href="#reservations" class="text-stone-300 hover:text-gold-400 transition-colors">Book a Table</a>
+                    <a href="#contact" class="text-stone-300 hover:text-gold-400 transition-colors">Contact</a>
+                </nav>
+
+                <!-- Action Buttons (Cart + Mobile Menu Toggle) -->
+                <div class="flex items-center gap-3 sm:gap-4">
+                    <a href="#reservations" class="hidden lg:inline-flex items-center px-4 py-2 rounded-full border border-gold-500/50 text-gold-400 text-xs font-semibold uppercase tracking-wider hover:bg-gold-500 hover:text-obsidian transition-all">
+                        Reserve
+                    </a>
+
+                    <!-- Live Cart Button -->
+                    <button onclick="toggleCart(true)" aria-label="Open Cart" class="relative p-2.5 rounded-full bg-charcoal border border-white/10 hover:border-gold-500/60 text-white transition-all group">
+                        <i class="fa-solid fa-bag-shopping text-lg group-hover:text-gold-400 transition-colors"></i>
+                        <span id="nav-cart-badge" class="absolute -top-1.5 -right-1.5 bg-gold-500 text-obsidian text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-md">
+                            0
+                        </span>
+                    </button>
+
+                    <!-- Mobile Hamburger Button -->
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle Menu" class="md:hidden p-2.5 rounded-lg bg-charcoal border border-white/10 text-stone-200 hover:text-gold-400">
+                        <i id="mobile-menu-icon" class="fa-solid fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Navigation -->
+        <div id="mobile-menu" class="hidden md:hidden bg-charcoal border-b border-white/10 px-4 pt-3 pb-6 space-y-3">
+            <a href="#home" onclick="toggleMobileMenu()" class="block py-2.5 px-3 rounded-lg text-base font-medium text-stone-200 hover:bg-white/5 hover:text-gold-400">Home</a>
+            <a href="#menu" onclick="toggleMobileMenu()" class="block py-2.5 px-3 rounded-lg text-base font-medium text-stone-200 hover:bg-white/5 hover:text-gold-400">Our Menu</a>
+            <a href="#about" onclick="toggleMobileMenu()" class="block py-2.5 px-3 rounded-lg text-base font-medium text-stone-200 hover:bg-white/5 hover:text-gold-400">Heritage &amp; Chef</a>
+            <a href="#reservations" onclick="toggleMobileMenu()" class="block py-2.5 px-3 rounded-lg text-base font-medium text-stone-200 hover:bg-white/5 hover:text-gold-400">Book a Table</a>
+            <a href="#contact" onclick="toggleMobileMenu()" class="block py-2.5 px-3 rounded-lg text-base font-medium text-stone-200 hover:bg-white/5 hover:text-gold-400">Contact</a>
+        </div>
+    </header>
+
+    <!-- ==================== 2. HERO SECTION ==================== -->
+    <section id="home" class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        <!-- High-Res Background Image -->
+        <div class="absolute inset-0 z-0">
+            <img 
+                src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=1920&q=80" 
+                onerror="this.src='https://placehold.co/1920x1080/141418/D4AF37?text=Zaiqa-e-Karachi+Fine+Dining'"
+                alt="Royal Pakistani Feast" 
+                class="w-full h-full object-cover object-center scale-105"
+            >
+            <div class="absolute inset-0 hero-gradient"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 w-full">
+            <div class="max-w-2xl">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gold-500/15 border border-gold-500/30 text-gold-400 text-xs font-semibold uppercase tracking-widest mb-6">
+                    <i class="fa-solid fa-star text-[10px]"></i> Clifton Block 4 • Karachi's Signature Dining
+                </div>
+                
+                <h1 class="font-serif text-4xl sm:text-5xl lg:text-7xl font-bold text-white leading-[1.12] tracking-tight mb-6">
+                    Where Royal <span class="text-gold-400 italic">Mughlai</span> Heritage Meets Modern Fire.
+                </h1>
+                
+                <p class="text-stone-300 text-base sm:text-lg leading-relaxed mb-9 max-w-xl font-light">
+                    Experience slow-simmered handis, charcoal-kissed seekh kebabs, and handcrafted saffron desserts—curated with organic spices and served in an unforgettable ambiance.
+                </p>
+
+                <!-- CTA Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#menu" class="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-gold-500 hover:bg-gold-400 text-obsidian font-bold text-sm uppercase tracking-wider shadow-xl shadow-gold-500/20 transition-all transform hover:-translate-y-0.5">
+                        <span>Explore Menu</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <a href="#reservations" class="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/20 text-white font-semibold text-sm uppercase tracking-wider transition-all">
+                        <i class="fa-regular fa-calendar-check text-gold-400"></i>
+                        <span>Book a Table</span>
+                    </a>
+                </div>
+
+                <!-- Quick Stats Bar -->
+                <div class="grid grid-cols-3 gap-6 pt-12 mt-12 border-t border-white/15 max-w-lg">
+                    <div>
+                        <p class="font-serif text-2xl sm:text-3xl font-bold text-white">4.9<span class="text-gold-400 text-lg">★</span></p>
+                        <p class="text-xs text-stone-400 mt-1">2,400+ Verified Reviews</p>
+                    </div>
+                    <div>
+                        <p class="font-serif text-2xl sm:text-3xl font-bold text-white">100%</p>
+                        <p class="text-xs text-stone-400 mt-1">Halal &amp; Organic Spices</p>
+                    </div>
+                    <div>
+                        <p class="font-serif text-2xl sm:text-3xl font-bold text-white">45 <span class="text-sm font-sans font-normal text-gold-400">min</span></p>
+                        <p class="text-xs text-stone-400 mt-1">Express Hot Delivery</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 3. INTERACTIVE MENU SECTION ==================== -->
+    <section id="menu" class="py-20 sm:py-28 bg-obsidian relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Section Header -->
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-gold-400 text-xs font-bold uppercase tracking-[0.25em]">Culinary Craftsmanship</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white mt-3 mb-4">Our Signature Menu</h2>
+                <p class="text-stone-400 text-sm sm:text-base">
+                    Every dish is prepared fresh to order using heirloom recipes. Filter by category or search for your favorite craving.
+                </p>
+            </div>
+
+            <!-- Search & Category Filter Controls -->
+            <div class="flex flex-col lg:flex-row items-center justify-between gap-5 mb-12 bg-charcoal p-4 rounded-2xl border border-white/10">
+                
+                <!-- Category Filter Pills -->
+                <div id="category-tabs" class="flex flex-wrap items-center justify-center lg:justify-start gap-2 w-full lg:w-auto">
+                    <button data-category="All" class="cat-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all bg-gold-500 text-obsidian">
+                        All Dishes
+                    </button>
+                    <button data-category="Starters" class="cat-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all bg-white/5 text-stone-300 hover:bg-white/10">
+                        Starters
+                    </button>
+                    <button data-category="BBQ & Grill" class="cat-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all bg-white/5 text-stone-300 hover:bg-white/10">
+                        BBQ &amp; Grill
+                    </button>
+                    <button data-category="Karahi & Handi" class="cat-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all bg-white/5 text-stone-300 hover:bg-white/10">
+                        Karahi &amp; Handi
+                    </button>
+                    <button data-category="Desserts" class="cat-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all bg-white/5 text-stone-300 hover:bg-white/10">
+                        Desserts
+                    </button>
+                    <button data-category="Beverages" class="cat-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all bg-white/5 text-stone-300 hover:bg-white/10">
+                        Beverages
+                    </button>
+                </div>
+
+                <!-- Live Search Bar -->
+                <div class="relative w-full lg:w-72">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400 text-sm"></i>
+                    <input 
+                        type="text" 
+                        id="menu-search" 
+                        placeholder="Search biryani, tikka, rabri..." 
+                        class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-obsidian border border-white/10 text-sm text-white placeholder-stone-500 focus:outline-none focus:border-gold-500 transition-colors"
+                    >
+                </div>
+            </div>
+
+            <!-- Menu Cards Grid (Populated via JavaScript) -->
+            <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+                <!-- Dynamic Cards Render Here -->
+            </div>
+
+            <!-- Empty Search State -->
+            <div id="no-results" class="hidden text-center py-16 bg-charcoal rounded-2xl border border-white/5">
+                <i class="fa-solid fa-utensils text-4xl text-stone-600 mb-3"></i>
+                <h3 class="font-serif text-xl text-white font-semibold">No dishes matched your search</h3>
+                <p class="text-stone-400 text-sm mt-1">Try clearing your search filter or exploring another category.</p>
+                <button onclick="resetMenuFilters()" class="mt-4 px-5 py-2 rounded-xl bg-gold-500 text-obsidian text-xs font-bold uppercase tracking-wider">
+                    Reset Filters
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 5. TABLE RESERVATION SECTION ==================== -->
+    <section id="reservations" class="py-20 sm:py-28 bg-charcoal border-y border-white/10 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Column: Atmosphere & Perks -->
+                <div class="lg:col-span-5 space-y-6">
+                    <span class="text-gold-400 text-xs font-bold uppercase tracking-[0.25em]">Private &amp; Family Dining</span>
+                    <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white leading-tight">
+                        Reserve Your Evening at Zaiqa
+                    </h2>
+                    <p class="text-stone-400 text-sm sm:text-base leading-relaxed">
+                        Whether you are planning an intimate candlelight dinner, a family dawat, or a corporate celebration, our hospitality team ensures an effortless experience.
+                    </p>
+
+                    <div class="space-y-4 pt-2">
+                        <div class="flex items-start gap-4 p-4 rounded-xl bg-obsidian/60 border border-white/5">
+                            <div class="w-10 h-10 rounded-lg bg-gold-500/15 text-gold-400 flex items-center justify-center shrink-0 mt-0.5">
+                                <i class="fa-solid fa-moon"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-semibold text-sm">Rooftop Sea-Breeze Terrace</h4>
+                                <p class="text-stone-400 text-xs mt-1">Open-air seating overlooking Clifton with live acoustic ghazal nights on weekends.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4 p-4 rounded-xl bg-obsidian/60 border border-white/5">
+                            <div class="w-10 h-10 rounded-lg bg-gold-500/15 text-gold-400 flex items-center justify-center shrink-0 mt-0.5">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-semibold text-sm">Royal Family Majlis Suites</h4>
+                                <p class="text-stone-400 text-xs mt-1">Sound-insulated luxury dining rooms accommodating 8 to 20 guests with dedicated butler service.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Interactive Booking Form -->
+                <div class="lg:col-span-7">
+                    <div class="bg-obsidian p-6 sm:p-10 rounded-3xl border border-gold-500/25 shadow-2xl">
+                        <h3 class="font-serif text-2xl font-bold text-white mb-6">Instant Table Reservation</h3>
+                        
+                        <form id="reservation-form" class="space-y-5">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase tracking-wider text-stone-400 mb-2">Full Name *</label>
+                                    <input type="text" id="res-name" required placeholder="e.g., Bilal Ahmed" class="w-full px-4 py-3 rounded-xl bg-charcoal border border-white/10 text-white text-sm focus:outline-none focus:border-gold-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase tracking-wider text-stone-400 mb-2">Phone Number *</label>
+                                    <input type="tel" id="res-phone" required placeholder="0300-1234567" class="w-full px-4 py-3 rounded-xl bg-charcoal border border-white/10 text-white text-sm focus:outline-none focus:border-gold-500">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase tracking-wider text-stone-400 mb-2">Date *</label>
+                                    <input type="date" id="res-date" required class="w-full px-4 py-3 rounded-xl bg-charcoal border border-white/10 text-white text-sm focus:outline-none focus:border-gold-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase tracking-wider text-stone-400 mb-2">Time Slot *</label>
+                                    <select id="res-time" required class="w-full px-4 py-3 rounded-xl bg-charcoal border border-white/10 text-white text-sm focus:outline-none focus:border-gold-500">
+                                        <option value="01:30 PM (Lunch)">01:30 PM (Lunch)</option>
+                                        <option value="03:00 PM (Lunch)">03:00 PM (Lunch)</option>
+                                        <option value="07:30 PM (Early Dinner)">07:30 PM (Early Dinner)</option>
+                                        <option value="09:00 PM (Prime Dinner)" selected>09:00 PM (Prime Dinner)</option>
+                                        <option value="10:30 PM (Late Supper)">10:30 PM (Late Supper)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase tracking-wider text-stone-400 mb-2">Guests *</label>
+                                    <select id="res-guests" required class="w-full px-4 py-3 rounded-xl bg-charcoal border border-white/10 text-white text-sm focus:outline-none focus:border-gold-500">
+                                        <option value="2 Guests">2 Guests</option>
+                                        <option value="4 Guests" selected>4 Guests</option>
+                                        <option value="6 Guests">6 Guests</option>
+                                        <option value="8 Guests">8 Guests</option>
+                                        <option value="12+ Guests (Family Hall)">12+ Guests (Family Hall)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase tracking-wider text-stone-400 mb-2">Seating Preference</label>
+                                    <select id="res-seating" class="w-full px-4 py-3 rounded-xl bg-charcoal border border-white/10 text-white text-sm focus:outline-none focus:border-gold-500">
+                                        <option value="Main Royal Dining Hall">Main Royal Dining Hall</option>
+                                        <option value="Rooftop Sea-Breeze Terrace">Rooftop Sea-Breeze Terrace</option>
+                                        <option value="Private Family Lounge">Private Family Lounge</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase tracking-wider text-stone-400 mb-2">Special Occasion / Notes</label>
+                                    <input type="text" id="res-notes" placeholder="Birthday, anniversary, high chair..." class="w-full px-4 py-3 rounded-xl bg-charcoal border border-white/10 text-white text-sm focus:outline-none focus:border-gold-500">
+                                </div>
+                            </div>
+
+                            <button type="submit" class="w-full py-4 rounded-xl bg-gold-500 hover:bg-gold-400 text-obsidian font-bold text-sm uppercase tracking-wider shadow-lg shadow-gold-500/20 transition-all cursor-pointer">
+                                Confirm Table Reservation
+                            </button>
+                        </form>
+
+                        <!-- Instant Reservation Confirmation Banner -->
+                        <div id="reservation-confirmation" class="hidden mt-6 p-5 rounded-2xl bg-emerald-950/70 border border-emerald-500/40 text-emerald-100">
+                            <div class="flex items-start gap-3.5">
+                                <i class="fa-solid fa-circle-check text-emerald-400 text-xl mt-0.5"></i>
+                                <div>
+                                    <h4 class="font-bold text-white text-base">Table Reserved! Reference #<span id="res-ref-id">ZK-8842</span></h4>
+                                    <p id="res-summary-text" class="text-xs sm:text-sm text-emerald-200/90 mt-1 leading-relaxed"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 6. ABOUT US / CHEF'S STORY & REVIEWS ==================== -->
+    <section id="about" class="py-20 sm:py-28 bg-obsidian">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Chef's Story Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-24">
+                <div class="relative">
+                    <div class="rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
+                        <img 
+                            src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=900&q=80" 
+                            onerror="this.src='https://placehold.co/900x700/1A1A20/D4AF37?text=Master+Chef+Kitchen'"
+                            alt="Executive Chef Preparing Dish" 
+                            class="w-full h-[420px] sm:h-[480px] object-cover"
+                        >
+                    </div>
+                    <!-- Floating Experience Card -->
+                    <div class="absolute -bottom-6 -right-2 sm:right-6 bg-charcoal border border-gold-500/40 p-5 rounded-2xl shadow-2xl max-w-[240px]">
+                        <p class="font-serif text-3xl font-bold text-gold-400">25+ Years</p>
+                        <p class="text-xs text-stone-300 mt-1 leading-relaxed">Of culinary mastery preserving authentic Lahori &amp; Karachite spice alchemy.</p>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <span class="text-gold-400 text-xs font-bold uppercase tracking-[0.25em]">Our Philosophy</span>
+                    <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white leading-tight">
+                        Crafted by Fire, Perfected by Tradition.
+                    </h2>
+                    <p class="text-stone-300 text-base leading-relaxed">
+                        Founded by Master Chef Tariq Mahmood in the heart of Karachi, <strong class="text-white">Zaiqa-e-Karachi</strong> was born from a simple conviction: Pakistani cuisine deserves the artistry, plating, and ingredient rigor of global fine dining without losing its soul.
+                    </p>
+                    <p class="text-stone-400 text-sm sm:text-base leading-relaxed">
+                        We stone-grind our whole garam masalas every morning, source saffron directly from Pampore, and slow-cook our clay handis over aged tamarind wood charcoal for an unmistakable smoky depth.
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-4 pt-4">
+                        <div class="p-4 rounded-2xl bg-charcoal border border-white/5">
+                            <i class="fa-solid fa-mortar-pestle text-gold-400 text-xl mb-2"></i>
+                            <h4 class="text-white font-semibold text-sm">House-Ground Spices</h4>
+                            <p class="text-stone-400 text-xs mt-1">Zero artificial colors or pre-packaged pastes.</p>
+                        </div>
+                        <div class="p-4 rounded-2xl bg-charcoal border border-white/5">
+                            <i class="fa-solid fa-award text-gold-400 text-xl mb-2"></i>
+                            <h4 class="text-white font-semibold text-sm">Prime Cut Meats</h4>
+                            <p class="text-stone-400 text-xs mt-1">Farm-fresh, traceable, 100% Zabiha Halal cuts.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guest Reviews -->
+            <div>
+                <div class="text-center max-w-xl mx-auto mb-12">
+                    <span class="text-gold-400 text-xs font-bold uppercase tracking-[0.25em]">Guest Testimonials</span>
+                    <h3 class="font-serif text-2xl sm:text-4xl font-bold text-white mt-2">Words From Our Patrons</h3>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-6 rounded-2xl bg-charcoal border border-white/10 flex flex-col justify-between">
+                        <div>
+                            <div class="flex text-gold-400 text-xs gap-1 mb-4">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="text-stone-300 text-sm italic leading-relaxed">
+                                "The Mutton Peshawari Karahi and Malai Boti literally melt in your mouth. Easily the finest ambiance in Clifton for a family dinner."
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+                            <div class="w-9 h-9 rounded-full bg-gold-500/20 text-gold-400 font-bold text-xs flex items-center justify-center">ZR</div>
+                            <div>
+                                <p class="text-white text-sm font-semibold">Zoya Rehman</p>
+                                <p class="text-stone-500 text-xs">DHA Phase 6, Karachi</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-6 rounded-2xl bg-charcoal border border-white/10 flex flex-col justify-between">
+                        <div>
+                            <div class="flex text-gold-400 text-xs gap-1 mb-4">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="text-stone-300 text-sm italic leading-relaxed">
+                                "Ordered online for a weekend family gathering—arrived piping hot in spill-proof clay pots. Their Shahi Tukda is unmatched!"
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+                            <div class="w-9 h-9 rounded-full bg-gold-500/20 text-gold-400 font-bold text-xs flex items-center justify-center">HM</div>
+                            <div>
+                                <p class="text-white text-sm font-semibold">Hamza Merchant</p>
+                                <p class="text-stone-500 text-xs">PECHS, Karachi</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-6 rounded-2xl bg-charcoal border border-white/10 flex flex-col justify-between">
+                        <div>
+                            <div class="flex text-gold-400 text-xs gap-1 mb-4">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="text-stone-300 text-sm italic leading-relaxed">
+                                "From the saffron welcome drink to the smoky Charcoal Platter, every detail screams luxury. Exceptional service by the staff."
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-3 mt-6 pt-4 border-t border-white/10">
+                            <div class="w-9 h-9 rounded-full bg-gold-500/20 text-gold-400 font-bold text-xs flex items-center justify-center">AK</div>
+                            <div>
+                                <p class="text-white text-sm font-semibold">Dr. Ayesha Khalid</p>
+                                <p class="text-stone-500 text-xs">Clifton Block 2, Karachi</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 7. FOOTER ==================== -->
+    <footer id="contact" class="bg-charcoal border-t border-white/10 pt-16 pb-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-white/10">
+                
+                <!-- Col 1: Brand -->
+                <div class="space-y-4">
+                    <a href="#home" class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-gold-500 flex items-center justify-center text-obsidian">
+                            <i class="fa-solid fa-fire-flame-curved"></i>
+                        </div>
+                        <span class="font-serif text-xl font-bold text-white">Zaiqa<span class="text-gold-500">-e-</span>Karachi</span>
+                    </a>
+                    <p class="text-stone-400 text-sm leading-relaxed">
+                        Elevating authentic Pakistani culinary heritage with royal hospitality, wood-fired grills, and contemporary elegance.
+                    </p>
+                    <div class="flex items-center gap-3 pt-2">
+                        <a href="#contact" aria-label="Instagram" class="w-9 h-9 rounded-full bg-white/5 hover:bg-gold-500 hover:text-obsidian text-stone-300 flex items-center justify-center transition-colors">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="#contact" aria-label="Facebook" class="w-9 h-9 rounded-full bg-white/5 hover:bg-gold-500 hover:text-obsidian text-stone-300 flex items-center justify-center transition-colors">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a href="#contact" aria-label="WhatsApp" class="w-9 h-9 rounded-full bg-white/5 hover:bg-gold-500 hover:text-obsidian text-stone-300 flex items-center justify-center transition-colors">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Col 2: Location & Contact -->
+                <div class="space-y-3">
+                    <h4 class="font-serif text-lg font-bold text-white">Visit Us</h4>
+                    <ul class="space-y-3 text-sm text-stone-400">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-location-dot text-gold-400 mt-1"></i>
+                            <span>Plot 14-C, Marine Promenade, Block 4 Clifton, Karachi, Pakistan</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-phone text-gold-400"></i>
+                            <span>+92 (21) 3583-9900 / 0300-8249900</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-envelope text-gold-400"></i>
+                            <span>concierge@zaiqaekarachi.pk</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Opening Hours -->
+                <div class="space-y-3">
+                    <h4 class="font-serif text-lg font-bold text-white">Opening Hours</h4>
+                    <ul class="space-y-2.5 text-sm text-stone-400">
+                        <li class="flex justify-between">
+                            <span>Mon – Thu:</span>
+                            <span class="text-white font-medium">12:30 PM – 12:00 AM</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>Fri – Sat:</span>
+                            <span class="text-gold-400 font-medium">01:00 PM – 01:30 AM</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>Sunday Brunch:</span>
+                            <span class="text-white font-medium">11:30 AM – 12:30 AM</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Newsletter -->
+                <div class="space-y-3">
+                    <h4 class="font-serif text-lg font-bold text-white">Royal Privilege Club</h4>
+                    <p class="text-stone-400 text-sm">Subscribe for seasonal tasting menus, Ramadan buffet alerts &amp; 15% off your first order.</p>
+                    <form id="newsletter-form" class="flex gap-2 pt-1">
+                        <input type="email" id="newsletter-email" required placeholder="Your email address" class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian border border-white/10 text-sm text-white focus:outline-none focus:border-gold-500">
+                        <button type="submit" class="px-4 py-2.5 rounded-xl bg-gold-500 hover:bg-gold-400 text-obsidian font-bold text-xs uppercase tracking-wider shrink-0 transition-colors cursor-pointer">
+                            Join
+                        </button>
+                    </form>
+                    <p id="newsletter-msg" class="hidden text-xs text-emerald-400 pt-1"></p>
+                </div>
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-500">
+                <p>&copy; 2026 Zaiqa-e-Karachi Hospitality Group. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <a href="#home" class="hover:text-stone-300">Privacy Policy</a>
+                    <a href="#home" class="hover:text-stone-300">Terms of Service</a>
+                    <a href="#menu" class="hover:text-stone-300">Allergen Guide</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== 4. SLIDE-OUT CART & CHECKOUT DRAWER ==================== -->
+    <div id="cart-backdrop" onclick="toggleCart(false)" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden transition-opacity"></div>
+    
+    <aside id="cart-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-charcoal border-l border-white/10 z-50 transform translate-x-full transition-transform duration-300 flex flex-col shadow-2xl">
+        
+        <!-- Drawer Header -->
+        <div class="p-6 border-b border-white/10 flex items-center justify-between bg-obsidian">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-bag-shopping text-gold-400 text-xl"></i>
+                <div>
+                    <h3 class="font-serif text-xl font-bold text-white">Your Royal Order</h3>
+                    <p id="drawer-item-count" class="text-xs text-stone-400">0 items selected</p>
+                </div>
+            </div>
+            <button onclick="toggleCart(false)" aria-label="Close Cart" class="w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 text-stone-300 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Drawer Scrollable Content -->
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
+            
+            <!-- Cart Items Container -->
+            <div id="cart-items-list" class="space-y-4">
+                <!-- Populated dynamically via JS -->
+            </div>
+
+            <!-- Empty Cart Placeholder -->
+            <div id="empty-cart-state" class="text-center py-12">
+                <div class="w-16 h-16 rounded-full bg-white/5 text-stone-500 flex items-center justify-center mx-auto mb-4 text-2xl">
+                    <i class="fa-solid fa-bowl-food"></i>
+                </div>
+                <h4 class="font-serif text-lg text-white font-semibold">Your order bag is empty</h4>
+                <p class="text-stone-400 text-xs mt-1 max-w-xs mx-auto">Explore our charcoal grills, signature karahis, and desserts to begin your feast.</p>
+                <button onclick="toggleCart(false)" class="mt-5 px-5 py-2.5 rounded-xl bg-gold-500 text-obsidian text-xs font-bold uppercase tracking-wider">
+                    Browse Menu
+                </button>
+            </div>
+
+            <!-- Delivery Checkout Form (Shown when cart has items) -->
+            <div id="checkout-section" class="hidden pt-4 border-t border-white/10 space-y-4">
+                <h4 class="font-serif text-base font-bold text-white">Delivery Details</h4>
+                
+                <div class="space-y-3">
+                    <input type="text" id="cust-name" placeholder="Full Name *" class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian border border-white/10 text-sm text-white focus:outline-none focus:border-gold-500">
+                    <input type="tel" id="cust-phone" placeholder="Mobile Number (e.g. 0300-1234567) *" class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian border border-white/10 text-sm text-white focus:outline-none focus:border-gold-500">
+                    <textarea id="cust-address" rows="2" placeholder="Complete Delivery Address (House/Flat, Street, Area in Karachi) *" class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian border border-white/10 text-sm text-white focus:outline-none focus:border-gold-500"></textarea>
+                    
+                    <select id="cust-payment" class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian border border-white/10 text-sm text-white focus:outline-none focus:border-gold-500">
+                        <option value="Cash on Delivery (COD)">Payment: Cash on Delivery (COD)</option>
+                        <option value="Raast / Bank Transfer">Payment: Raast / Instant Bank Transfer</option>
+                        <option value="Card on Delivery">Payment: POS Card Machine on Delivery</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Drawer Footer: Bill Breakdown & Place Order Button -->
+        <div id="cart-footer" class="hidden p-6 border-t border-white/10 bg-obsidian space-y-4">
+            <div class="space-y-1.5 text-sm">
+                <div class="flex justify-between text-stone-400">
+                    <span>Subtotal</span>
+                    <span id="bill-subtotal">PKR 0</span>
+                </div>
+                <div class="flex justify-between text-stone-400">
+                    <span>SST (13% Tax)</span>
+                    <span id="bill-tax">PKR 0</span>
+                </div>
+                <div class="flex justify-between text-stone-400">
+                    <span>Rider Delivery Fee</span>
+                    <span id="bill-delivery">PKR 250</span>
+                </div>
+                <div class="flex justify-between text-white font-bold text-base pt-2 border-t border-white/10">
+                    <span>Grand Total</span>
+                    <span id="bill-total" class="text-gold-400">PKR 0</span>
+                </div>
+            </div>
+
+            <button onclick="placeOrder()" class="w-full py-3.5 rounded-xl bg-gold-500 hover:bg-gold-400 text-obsidian font-bold text-sm uppercase tracking-wider shadow-lg shadow-gold-500/20 transition-all cursor-pointer">
+                Place Order Now
+            </button>
+        </div>
+    </aside>
+
+    <!-- ==================== ORDER CONFIRMATION MODAL ==================== -->
+    <div id="order-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+        <div class="bg-charcoal border border-gold-500/40 rounded-3xl max-w-md w-full p-7 text-center shadow-2xl">
+            <div class="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto mb-4 text-3xl">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <span class="text-xs font-bold uppercase tracking-widest text-gold-400">Order Confirmed</span>
+            <h3 class="font-serif text-2xl font-bold text-white mt-1">Kitchen Has Started Cooking!</h3>
+            <p id="order-modal-details" class="text-stone-300 text-sm mt-3 leading-relaxed"></p>
+            <div class="mt-5 p-3.5 rounded-xl bg-obsidian border border-white/10 text-xs text-stone-400">
+                Estimated Delivery Time: <strong class="text-white">35 – 45 Minutes</strong>
+            </div>
+            <button onclick="closeOrderModal()" class="mt-6 w-full py-3 rounded-xl bg-gold-500 hover:bg-gold-400 text-obsidian font-bold text-xs uppercase tracking-wider cursor-pointer">
+                Done
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== TOAST NOTIFICATION ==================== -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-charcoal border border-gold-500/50 text-white shadow-2xl">
+            <i class="fa-solid fa-circle-check text-gold-400"></i>
+            <span id="toast-message" class="text-sm font-medium">Item added to order!</span>
+        </div>
+    </div>
+
+    <!-- ==================== JAVASCRIPT APPLICATION LOGIC ==================== -->
+    <script>
+        // 1. CURATED CULINARY MENU DATA (PKR Pricing & Reliable High-Res Imagery)
+        const menuItems = [
+            {
+                id: 1,
+                name: "Peshawari Namkeen Mutton Karahi",
+                category: "Karahi & Handi",
+                price: 3450,
+                badge: "Chef's Signature",
+                spicy: "Medium",
+                desc: "Tender goat cuts wok-tossed in fresh vine tomatoes, crushed black pepper, ginger juliennes, and organic desi ghee.",
+                image: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 2,
+                name: "Royal Zafrani Dum Biryani",
+                category: "Karahi & Handi",
+                price: 1650,
+                badge: "Best Seller",
+                spicy: "Spicy",
+                desc: "Aged basmati rice layered with marinated meat, Kashmiri saffron milk, caramelized onions, and smoked plum masala.",
+                image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 3,
+                name: "Mughlai Chicken Makhni Handi",
+                category: "Karahi & Handi",
+                price: 2290,
+                badge: "Creamy Classic",
+                spicy: "Mild",
+                desc: "Boneless chargrilled chicken simmered in a velvety roasted tomato, cashew, and fenugreek butter gravy.",
+                image: "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 4,
+                name: "Charcoal Reshmi Seekh Kebab",
+                category: "BBQ & Grill",
+                price: 1750,
+                badge: "Wood-Fired",
+                spicy: "Medium",
+                desc: "Hand-minced spiced chicken & lamb skewers basted with clarified butter over glowing tamarind charcoal.",
+                image: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 5,
+                name: "Zaiqa Grand Grill Platter",
+                category: "BBQ & Grill",
+                price: 4600,
+                badge: "Feeds 3–4",
+                spicy: "Medium",
+                desc: "Assortment of Malai Boti, Beef Bihari Kebab, Lamb Chops, and Peshawari Tikka served with mint chutney & garlic naan.",
+                image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 6,
+                name: "Smoked Beef Bihari Boti",
+                category: "BBQ & Grill",
+                price: 1980,
+                badge: "Spicy Favorite",
+                spicy: "Spicy",
+                desc: "Melt-in-the-mouth beef tenderloin strips marinated in roasted poppy seeds, raw papaya, and mustard oil.",
+                image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 7,
+                name: "Crispy Prawns Tempura Chaat",
+                category: "Starters",
+                price: 1490,
+                badge: "Karachi Fusion",
+                spicy: "Medium",
+                desc: "Arabian Sea tiger prawns tossed with sweet tamarind glaze, crispy sev, pomegranate pearls, and spiced yogurt.",
+                image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 8,
+                name: "Truffle & Cheese Stuffed Naan",
+                category: "Starters",
+                price: 750,
+                badge: "Chef's Fusion",
+                spicy: "Mild",
+                desc: "Clay-oven tandoori flatbread stuffed with aged cheddar, mozzarella, roasted garlic, and white truffle oil.",
+                image: "https://images.unsplash.com/photo-1626074353765-517a681e40be?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 9,
+                name: "Royal Shahi Tukda & Rabri",
+                category: "Desserts",
+                price: 890,
+                badge: "Must Try",
+                spicy: "Sweet",
+                desc: "Ghee-toasted saffron brioche soaked in cardamom syrup, crowned with thick reduced milk rabri, pistachios, and edible silver.",
+                image: "https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 10,
+                name: "Pista Kulfi Falooda Parfait",
+                category: "Desserts",
+                price: 790,
+                badge: "Traditional",
+                spicy: "Sweet",
+                desc: "Artisanal Iranian pistachio kulfi layered with rose-scented vermicelli, basil seeds, and roasted almond slivers.",
+                image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 11,
+                name: "Mint & Kala Namak Margarita",
+                category: "Beverages",
+                price: 550,
+                badge: "Refreshing",
+                spicy: "Chilled",
+                desc: "Fresh garden mint, squeezed Karachi limes, Himalayan black salt, and crushed ice blended to frosty perfection.",
+                image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 12,
+                name: "Peshawari Zafrani Kahwa",
+                category: "Beverages",
+                price: 450,
+                badge: "Digestif",
+                spicy: "Hot",
+                desc: "Aromatic green tea brewed with crushed green cardamom, cinnamon bark, saffron strands, and raw honey.",
+                image: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80"
+            }
+        ];
+
+        // 2. APPLICATION STATE
+        let cart = [];
+        let activeCategory = "All";
+        let searchQuery = "";
+
+        // 3. INITIALIZE PAGE ON LOAD
+        document.addEventListener("DOMContentLoaded", () => {
+            renderMenu();
+            updateCartUI();
+            setMinReservationDate();
+        });
+
+        // Set minimum selectable date in reservation form to today
+        function setMinReservationDate() {
+            const dateInput = document.getElementById("res-date");
+            if (dateInput) {
+                const today = new Date().toISOString().split("T")[0];
+                dateInput.min = today;
+                dateInput.value = today;
+            }
+        }
+
+        // Format currency in PKR
+        function formatPKR(amount) {
+            return "PKR " + amount.toLocaleString("en-PK");
+        }
+
+        // 4. RENDER MENU ITEMS WITH FILTERING & SEARCH
+        function renderMenu() {
+            const grid = document.getElementById("menu-grid");
+            const noResults = document.getElementById("no-results");
+
+            const filtered = menuItems.filter(item => {
+                const matchesCategory = activeCategory === "All" || item.category === activeCategory;
+                const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                      item.desc.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                      item.category.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = "";
+                noResults.classList.remove("hidden");
+                return;
+            }
+
+            noResults.classList.add("hidden");
+            grid.innerHTML = filtered.map(item => `
+                <article class="group bg-cardbg rounded-2xl overflow-hidden border border-white/10 hover:border-gold-500/50 transition-all duration-300 flex flex-col justify-between shadow-lg">
+                    <div>
+                        <!-- Dish Image & Badges -->
+                        <div class="relative h-56 overflow-hidden bg-charcoal">
+                            <img 
+                                src="${item.image}" 
+                                onerror="this.src='https://placehold.co/800x600/1A1A20/D4AF37?text=${encodeURIComponent(item.name)}'"
+                                alt="${item.name}" 
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            >
+                            <div class="absolute inset-0 bg-gradient-to-t from-cardbg via-transparent to-black/30"></div>
+                            
+                            <span class="absolute top-3.5 left-3.5 px-3 py-1 rounded-full bg-obsidian/85 backdrop-blur-md border border-gold-500/40 text-gold-400 text-[11px] font-semibold tracking-wide">
+                                ${item.badge}
+                            </span>
+
+                            <span class="absolute top-3.5 right-3.5 px-2.5 py-1 rounded-full bg-black/75 text-stone-200 text-[11px] font-medium">
+                                ${item.spicy === 'Spicy' ? '🌶️ Spicy' : item.spicy === 'Medium' ? '🔥 Medium' : item.spicy}
+                            </span>
+                        </div>
+
+                        <!-- Dish Content -->
+                        <div class="p-6 pb-4">
+                            <div class="flex items-start justify-between gap-2 mb-2">
+                                <span class="text-[11px] uppercase tracking-widest text-gold-400/90 font-semibold">${item.category}</span>
+                                <span class="font-serif text-lg font-bold text-white whitespace-nowrap">${formatPKR(item.price)}</span>
+                            </div>
+                            <h3 class="font-serif text-xl font-bold text-white group-hover:text-gold-400 transition-colors">
+                                ${item.name}
+                            </h3>
+                            <p class="text-stone-400 text-xs sm:text-sm leading-relaxed mt-2">
+                                ${item.desc}
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Add to Order CTA -->
+                    <div class="px-6 pb-6 pt-2">
+                        <button 
+                            onclick="addToCart(${item.id})" 
+                            class="w-full py-3 px-4 rounded-xl bg-white/5 hover:bg-gold-500 text-white hover:text-obsidian border border-white/10 hover:border-gold-500 font-semibold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer"
+                        >
+                            <i class="fa-solid fa-plus"></i>
+                            <span>Add to Order</span>
+                        </button>
+                    </div>
+                </article>
+            `).join("");
+        }
+
+        // Category Tab Click Handling
+        document.querySelectorAll(".cat-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                document.querySelectorAll(".cat-btn").forEach(b => {
+                    b.classList.remove("bg-gold-500", "text-obsidian");
+                    b.classList.add("bg-white/5", "text-stone-300");
+                });
+                btn.classList.remove("bg-white/5", "text-stone-300");
+                btn.classList.add("bg-gold-500", "text-obsidian");
+
+                activeCategory = btn.getAttribute("data-category");
+                renderMenu();
+            });
+        });
+
+        // Search Input Event Listener
+        document.getElementById("menu-search").addEventListener("input", (e) => {
+            searchQuery = e.target.value.trim();
+            renderMenu();
+        });
+
+        function resetMenuFilters() {
+            activeCategory = "All";
+            searchQuery = "";
+            document.getElementById("menu-search").value = "";
+            document.querySelectorAll(".cat-btn").forEach((b, idx) => {
+                if (idx === 0) {
+                    b.classList.add("bg-gold-500", "text-obsidian");
+                    b.classList.remove("bg-white/5", "text-stone-300");
+                } else {
+                    b.classList.remove("bg-gold-500", "text-obsidian");
+                    b.classList.add("bg-white/5", "text-stone-300");
+                }
+            });
+            renderMenu();
+        }
+
+        // 5. SHOPPING CART & CHECKOUT LOGIC
+        function addToCart(itemId) {
+            const product = menuItems.find(i => i.id === itemId);
+            if (!product) return;
+
+            const existing = cart.find(c => c.id === itemId);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+
+            updateCartUI();
+            showToast(`Added "${product.name}" to your order`);
+        }
+
+        function updateQuantity(itemId, delta) {
+            const index = cart.findIndex(c => c.id === itemId);
+            if (index === -1) return;
+
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) {
+                cart.splice(index, 1);
+            }
+            updateCartUI();
+        }
+
+        function removeFromCart(itemId) {
+            cart = cart.filter(c => c.id !== itemId);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById("nav-cart-badge").textContent = totalItems;
+            document.getElementById("drawer-item-count").textContent = `${totalItems} ${totalItems === 1 ? 'item' : 'items'} selected`;
+
+            const listEl = document.getElementById("cart-items-list");
+            const emptyState = document.getElementById("empty-cart-state");
+            const checkoutSection = document.getElementById("checkout-section");
+            const cartFooter = document.getElementById("cart-footer");
+
+            if (cart.length === 0) {
+                listEl.innerHTML = "";
+                emptyState.classList.remove("hidden");
+                checkoutSection.classList.add("hidden");
+                cartFooter.classList.add("hidden");
+                return;
+            }
+
+            emptyState.classList.add("hidden");
+            checkoutSection.classList.remove("hidden");
+            cartFooter.classList.remove("hidden");
+
+            listEl.innerHTML = cart.map(item => `
+                <div class="flex items-center gap-3.5 p-3.5 rounded-2xl bg-obsidian border border-white/10">
+                    <img 
+                        src="${item.image}" 
+                        onerror="this.src='https://placehold.co/120x120/1A1A20/D4AF37?text=Dish'"
+                        alt="${item.name}" 
+                        class="w-16 h-16 rounded-xl object-cover shrink-0"
+                    >
+                    <div class="flex-1 min-w-0">
+                        <h5 class="text-white font-semibold text-sm truncate">${item.name}</h5>
+                        <p class="text-gold-400 text-xs font-bold mt-0.5">${formatPKR(item.price * item.qty)}</p>
+                        
+                        <div class="flex items-center gap-2.5 mt-2">
+                            <button onclick="updateQuantity(${item.id}, -1)" class="w-6 h-6 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs flex items-center justify-center cursor-pointer">
+                                <i class="fa-solid fa-minus text-[10px]"></i>
+                            </button>
+                            <span class="text-xs font-bold text-white w-4 text-center">${item.qty}</span>
+                            <button onclick="updateQuantity(${item.id}, 1)" class="w-6 h-6 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs flex items-center justify-center cursor-pointer">
+                                <i class="fa-solid fa-plus text-[10px]"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button onclick="removeFromCart(${item.id})" aria-label="Remove item" class="text-stone-500 hover:text-rose-400 p-1.5 transition-colors cursor-pointer">
+                        <i class="fa-solid fa-trash-can text-sm"></i>
+                    </button>
+                </div>
+            `).join("");
+
+            // Calculate Totals
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const tax = Math.round(subtotal * 0.13); // 13% Sindh Sales Tax
+            const delivery = 250;
+            const grandTotal = subtotal + tax + delivery;
+
+            document.getElementById("bill-subtotal").textContent = formatPKR(subtotal);
+            document.getElementById("bill-tax").textContent = formatPKR(tax);
+            document.getElementById("bill-delivery").textContent = formatPKR(delivery);
+            document.getElementById("bill-total").textContent = formatPKR(grandTotal);
+        }
+
+        function toggleCart(open) {
+            const drawer = document.getElementById("cart-drawer");
+            const backdrop = document.getElementById("cart-backdrop");
+
+            if (open) {
+                backdrop.classList.remove("hidden");
+                drawer.classList.remove("translate-x-full");
+            } else {
+                backdrop.classList.add("hidden");
+                drawer.classList.add("translate-x-full");
+            }
+        }
+
+        function placeOrder() {
+            const name = document.getElementById("cust-name").value.trim();
+            const phone = document.getElementById("cust-phone").value.trim();
+            const address = document.getElementById("cust-address").value.trim();
+            const payment = document.getElementById("cust-payment").value;
+
+            if (!name || !phone || !address) {
+                showToast("Please fill in your name, phone, and delivery address.");
+                return;
+            }
+
+            const totalText = document.getElementById("bill-total").textContent;
+            const orderNum = "ZK-" + Math.floor(1000 + Math.random() * 9000);
+
+            document.getElementById("order-modal-details").innerHTML = `
+                Thank you, <strong class="text-white">${name}</strong>! Your order <strong class="text-gold-400">#${orderNum}</strong> (${totalText} via ${payment}) is being freshly prepared and will be dispatched to <strong class="text-white">${address}</strong>.
+            `;
+
+            // Reset cart & close drawer
+            cart = [];
+            updateCartUI();
+            toggleCart(false);
+
+            // Show Confirmation Modal
+            const modal = document.getElementById("order-modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        }
+
+        function closeOrderModal() {
+            const modal = document.getElementById("order-modal");
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
+        }
+
+        // 6. TABLE RESERVATION FORM SUBMISSION
+        document.getElementById("reservation-form").addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById("res-name").value.trim();
+            const date = document.getElementById("res-date").value;
+            const time = document.getElementById("res-time").value;
+            const guests = document.getElementById("res-guests").value;
+            const seating = document.getElementById("res-seating").value;
+
+            const refId = "TBL-" + Math.floor(1000 + Math.random() * 9000);
+            document.getElementById("res-ref-id").textContent = refId;
+            document.getElementById("res-summary-text").textContent = 
+                `We look forward to welcoming ${name} (${guests}) on ${date} at ${time} in our ${seating}. SMS confirmation has been sent.`;
+
+            const banner = document.getElementById("reservation-confirmation");
+            banner.classList.remove("hidden");
+            showToast("Table reservation confirmed!");
+        });
+
+        // 7. NEWSLETTER FORM SUBMISSION
+        document.getElementById("newsletter-form").addEventListener("submit", (e) => {
+            e.preventDefault();
+            const emailInput = document.getElementById("newsletter-email");
+            const msg = document.getElementById("newsletter-msg");
+            if (emailInput.value.trim()) {
+                msg.textContent = "Welcome to the Royal Club! Use code ZAIQA15 at checkout.";
+                msg.classList.remove("hidden");
+                emailInput.value = "";
+            }
+        });
+
+        // 8. MOBILE NAVIGATION TOGGLE & TOAST HELPER
+        function toggleMobileMenu() {
+            const menu = document.getElementById("mobile-menu");
+            const icon = document.getElementById("mobile-menu-icon");
+            menu.classList.toggle("hidden");
+
+            if (menu.classList.contains("hidden")) {
+                icon.classList.remove("fa-xmark");
+                icon.classList.add("fa-bars");
+            } else {
+                icon.classList.remove("fa-bars");
+                icon.classList.add("fa-xmark");
+            }
+        }
+
+        let toastTimeout;
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            document.getElementById("toast-message").textContent = message;
+            toast.classList.remove("translate-y-24", "opacity-0");
+
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add("translate-y-24", "opacity-0");
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
